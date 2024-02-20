@@ -17,7 +17,6 @@ public class Registration {
     @Column(name = "password")
     private String password;
 
-
     public String getEmail() {
         return email;
     }
@@ -25,6 +24,7 @@ public class Registration {
     public void setEmail(String email) {
         this.email = email;
     }
+
     public String getFname() {
         return Fname;
     }
@@ -41,24 +41,20 @@ public class Registration {
         Lname = lname;
     }
 
-
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
-        // Hash the password before setting it
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        this.password = passwordEncoder.encode(password);
+        this.password = password;
     }
+
     public boolean verifyPassword(String candidatePassword) {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder.matches(candidatePassword, this.password);
+        return password.equals(candidatePassword);
     }
+
     @Override
     public String toString() {
         return "Registration [fullName=" + Fname + ", lastName=" + Lname + ", email=" + email + ", password=" + password + "]";
     }
-
 }

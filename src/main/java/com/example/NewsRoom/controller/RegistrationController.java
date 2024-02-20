@@ -17,11 +17,13 @@ public class RegistrationController {
     public RegistrationController(RegistrationService registrationService) {
         this.registrationService = registrationService;
     }
+
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody Registration registration) {
         registrationService.registerUser(registration);
         return ResponseEntity.ok("User registered successfully");
     }
+
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody Registration registration) {
         if (registrationService.authenticateUser(registration)) {
@@ -30,5 +32,4 @@ public class RegistrationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         }
     }
-
 }
