@@ -7,7 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Table(name="Register")
 public class Registration {
     @Id
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
     @Column(name = "Full Name")
     private String Fname;

@@ -16,19 +16,14 @@ public class RegistrationService {
     }
 
     public void registerUser(Registration registration) {
+        if (registrationRepository.existsByEmail(registration.getEmail())) {
+            throw new IllegalArgumentException("User with this email already exists");
+        }
         registrationRepository.save(registration);
     }
 
     public boolean authenticateUser(Registration registration) {
         Registration existingUser = registrationRepository.findByEmail(registration.getEmail());
-        if (existingUser != null) {
-//            System.out.println("EMail :" + existingUser.getEmail());
-//            System.out.println("Provided Password: " + registration.getPassword());
-//            System.out.println("Stored Password: " + existingUser.getPassword());
-
-            // Perform password comparison here
-            return registration.getPassword().equals(existingUser.getPassword());
-        }
-        return false;
+        return existingUser != null && registration.getPassword().equals(existingUser.getPassword());
     }
 }
