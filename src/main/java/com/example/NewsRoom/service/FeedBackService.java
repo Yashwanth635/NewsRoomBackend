@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class FeedBackService {
     @Autowired
@@ -13,5 +15,9 @@ public class FeedBackService {
     @Transactional
     public void submitFeedback(Feedback feedback) {
         feedbackRepository.save(feedback);
+    }
+
+    public List<Feedback> getAllFeedback() {
+        return feedbackRepository.findAll();
     }
 }

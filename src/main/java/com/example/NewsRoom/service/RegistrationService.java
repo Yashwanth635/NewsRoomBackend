@@ -6,6 +6,8 @@ import com.example.NewsRoom.repository.RegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RegistrationService {
     @Autowired
@@ -25,5 +27,17 @@ public class RegistrationService {
     public boolean authenticateUser(Registration registration) {
         Registration existingUser = registrationRepository.findByEmail(registration.getEmail());
         return existingUser != null && registration.getPassword().equals(existingUser.getPassword());
+    }
+    public List<Registration> getAllUsers() {
+        return registrationRepository.findAll();
+    }
+
+    public void deleteUserByEmail(String email) {
+        Registration user = registrationRepository.findByEmail(email);
+        if (user != null) {
+            registrationRepository.delete(user);
+        } else {
+            throw new UserNotFoundException("User with email " + email + " not found");
+        }
     }
 }

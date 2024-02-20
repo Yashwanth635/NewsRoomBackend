@@ -41,9 +41,12 @@ public class Feedback {
         this.message = message;
     }
 
-    public Feedback(Long id, String message) {
-        this.id = id;
-        this.message = message;
-
+    @Override
+    public String toString() {
+        return "Feedback{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", message='" + message + '\'' +
+                '}';
     }
 }
