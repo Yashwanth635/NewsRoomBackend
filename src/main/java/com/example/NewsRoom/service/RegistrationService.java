@@ -12,22 +12,30 @@ import java.util.List;
 public class RegistrationService {
     @Autowired
     private final RegistrationRepository registrationRepository;
+//    private List<Registration> registeredUsers;
 
     public RegistrationService(RegistrationRepository registrationRepository) {
         this.registrationRepository = registrationRepository;
     }
 
     public void registerUser(Registration registration) {
-        if (registrationRepository.existsByEmail(registration.getEmail())) {
-            throw new IllegalArgumentException("User with this email already exists");
-        }
         registrationRepository.save(registration);
     }
-
+//public boolean isUserRegistered(String email) {
+//    for (Registration user : registeredUsers) {
+//        if (user.getEmail().equals(email)) {
+//            return true;
+//        }
+//    }
+//    return false;
+//}
     public boolean authenticateUser(Registration registration) {
         Registration existingUser = registrationRepository.findByEmail(registration.getEmail());
         return existingUser != null && registration.getPassword().equals(existingUser.getPassword());
     }
+
+
+
     public List<Registration> getAllUsers() {
         return registrationRepository.findAll();
     }

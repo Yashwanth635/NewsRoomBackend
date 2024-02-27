@@ -9,6 +9,9 @@ public class Feedback {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
+//    private String message;
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String message;
 
     public String getEmail() {
