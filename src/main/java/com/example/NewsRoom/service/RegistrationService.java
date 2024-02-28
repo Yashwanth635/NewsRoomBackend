@@ -4,7 +4,10 @@ import ch.qos.logback.core.boolex.Matcher;
 import com.example.NewsRoom.model.Registration;
 import com.example.NewsRoom.repository.RegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
+
 
 import java.util.List;
 
@@ -29,10 +32,13 @@ public class RegistrationService {
 //    }
 //    return false;
 //}
-    public boolean authenticateUser(Registration registration) {
-        Registration existingUser = registrationRepository.findByEmail(registration.getEmail());
-        return existingUser != null && registration.getPassword().equals(existingUser.getPassword());
+public boolean authenticateUser(String email, String password) {
+    Registration registration = registrationRepository.findByEmail(email).orElse(null);
+    if (registration != null) {
+        return BCrypt.checkpw(password, registration.getPasswordHash());
     }
+    return false;
+}
 
 
 
@@ -41,11 +47,13 @@ public class RegistrationService {
     }
 
     public void deleteUserByEmail(String email) {
-        Registration user = registrationRepository.findByEmail(email);
-        if (user != null) {
+        Optional<Registration> optionalUser = registrationRepository.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            Registration user = optionalUser.get();
             registrationRepository.delete(user);
         } else {
             throw new UserNotFoundException("User with email " + email + " not found");
         }
     }
+
 }

@@ -4,10 +4,7 @@ import com.example.NewsRoom.model.Registration;
 import com.example.NewsRoom.service.RegistrationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import jakarta.servlet.http.HttpSession;
 
 @RestController
@@ -27,9 +24,9 @@ public class RegistrationController{
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody Registration registration, HttpSession session) {
-        if (registrationService.authenticateUser(registration)) {
-            session.setAttribute("email", registration.getEmail());
+    public ResponseEntity<String> loginUser(@RequestParam String email, @RequestParam String password , HttpSession session) {
+        if (registrationService.authenticateUser(email,password)) {
+            session.setAttribute("email", email);
             return ResponseEntity.ok("Login successful");
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
